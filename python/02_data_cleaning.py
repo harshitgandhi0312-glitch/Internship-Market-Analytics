@@ -230,6 +230,46 @@ education_df["Education_Required"] = (
     .fillna("Not Specified")
 )
 
+city_mapping = {
+    "Bangalore": "Bengaluru",
+    "Bengaluru (Bangalore)": "Bengaluru",
+    "Gurgaon": "Gurugram",
+    "India": "Not Specified"
+}
+
+main_df["City_Clean"] = (
+    main_df["City"]
+    .replace(city_mapping)
+    .fillna("Not Specified")
+)
+
+
+state_mapping = {
+    "India": "Not Specified"
+}
+
+main_df["State_Clean"] = (
+    main_df["State"]
+    .replace(state_mapping)
+    .fillna("Not Specified")
+)
+
+def stipend_flag(stipend):
+
+    if pd.isna(stipend):
+        return "Not Specified"
+
+    elif stipend >= 50000:
+        return "High Stipend"
+
+    else:
+        return "Normal"
+
+
+main_df["Stipend_Flag"] = main_df["Average_Stipend"].apply(
+    stipend_flag
+)
+
 
 os.makedirs(output_folder, exist_ok=True)
 
